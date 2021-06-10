@@ -80,7 +80,7 @@ get_edges()
         fi
     done
 
-    printf "%s\n" "${g_ve##*:}"
+    printf "%s" "${g_ve##*:}"
     return 0
 }
 
@@ -178,7 +178,7 @@ else
 fi
 
 if [ "$v" ]; then
-    printf "%s: input contains odd number of elements" "$0"
+    printf "%s: input contains odd number of elements\n" "$0"
     exit 1
 fi
 
