@@ -84,6 +84,20 @@ get_edges()
     return 0
 }
 
+join()
+{
+    s=''; _s=''; _j=$2
+
+    set -- $1
+
+    for s; do
+        _s="$_j$s$_s"
+    done
+
+    printf "%s" "${_s#$_j}"
+    return 0
+}
+
 traversal()
 {
     if contains "$1" "$black"; then
@@ -102,10 +116,10 @@ traversal()
         if contains "$1" "$black"; then
             :
         elif contains "$1" "$grey"; then
-            # TODO print message about circular loop
-            return 1
+            printf "%s: endless loop: %s\n" "$0" "$(join "$1 $grey" '>')"
+            exit 1
         else 
-            traversal "$1" "$(get_edges "$1")" || return 1
+            traversal "$1" "$(get_edges "$1")"
         fi
 
         shift 1
@@ -169,7 +183,7 @@ if [ "$v" ]; then
 fi
 
 for ve in $graph; do
-    traversal "${ve%%:*}" "${ve##*:}" || exit 1
+    traversal "${ve%%:*}" "${ve##*:}"
 done
 
 printf "%s\n" $order
