@@ -186,4 +186,6 @@ for ve in $graph; do
     traversal "${ve%%:*}" "${ve##*:}"
 done
 
-printf "%s\n" $order
+for o in $order; do
+    printf "%s\n" "$o"
+done
